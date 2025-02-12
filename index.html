@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Galentine's Wish</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h1>💛 Happy Galentine's Day, Michaa! 💚</h1>
+    
+    <div class="envelope" onclick="toggleEnvelope()">
+        <div class="flap"></div>
+        <div class="letter">
+            <p id="message">
+                I seriously hit the jackpot having a friend like you! 💕  
+                You are kind, supportive, and absolutely beautiful—inside and out. ✨  
+                You always lift me up and bring so much joy into my life.  
+            </p>
+        </div>
+        <div class="click-me">Click Me 💌</div>
+    </div>
+
+    
+    <div class="duck-question-container">
+        <img src="images/62ae1cdeb3ab71cb57a89ee8273041ee.jpg" alt="Duck" class="duck">
+        <p class="question">Will you be my friend forever? 🥺</p>
+        <div class="button-container">
+            <button id="yes-btn" onclick="showGotcha()">Yes</button>
+            <button id="no-btn" onmouseover="moveNoButton()" onclick="moveNoButton()">No</button>
+        </div>
+    </div>
+    
+    <!-- Gotcha Image -->
+    <div class="gotcha-container" id="gotcha-container">
+        <img src="images/WhatsApp Image 2025-02-12 at 12.18.31_9f68b220.jpg" alt="Gotcha!" class="gotcha">
+        <p class="gotcha-text">Gotcha! 😂</p>
+    </div>
+    
+    
+    <script src="script.js"></script>
+</body>
+</html>
