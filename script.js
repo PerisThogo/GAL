@@ -1,56 +1,81 @@
 document.addEventListener("DOMContentLoaded", function () {
     const envelope = document.querySelector(".envelope");
-    const flap = document.querySelector(".flap");
     const letter = document.querySelector(".letter");
     const clickMe = document.querySelector(".click-me");
     const yesBtn = document.getElementById("yes-btn");
     const noBtn = document.getElementById("no-btn");
     const gotchaContainer = document.querySelector(".gotcha-container");
 
-    // Toggle envelope open/close
-    envelope.addEventListener("click", function () {
-        if (envelope.classList.contains("open")) {
-            envelope.classList.remove("open");
-            setTimeout(() => {
-                letter.style.opacity = "0";
-                letter.style.transform = "translateX(-50%) translateY(50px)";
-                clickMe.style.opacity = "1";
-            }, 500);
+    let heartsStarted = false;
+
+    // Ensure Click Me is clickable
+    clickMe.style.zIndex = "10000";
+    clickMe.style.pointerEvents = "auto";
+
+    // Click Me button triggers letter opening
+    clickMe.addEventListener("click", function (event) {
+        event.stopPropagation(); // Prevents envelope click from triggering
+        openLetter();
+    });
+
+    // Clicking the envelope opens or closes the letter
+    envelope.addEventListener("click", function (event) {
+        if (!envelope.classList.contains("open")) {
+            openLetter();
         } else {
-            envelope.classList.add("open");
-            setTimeout(() => {
-                letter.style.opacity = "1";
-                letter.style.transform = "translateX(-50%) translateY(-50px)";
-                clickMe.style.opacity = "0";
-            }, 500);
+            closeLetter();
+        }
+        event.stopPropagation();
+    });
+
+    // Clicking outside closes the letter
+    document.addEventListener("click", function (event) {
+        if (!envelope.contains(event.target) && event.target !== clickMe) {
+            closeLetter();
         }
     });
 
-    // Make "Click Me" bounce to grab attention
-    setInterval(() => {
-        clickMe.classList.toggle("bounce");
-    }, 1500);
+    function openLetter() {
+        envelope.classList.add("open");
+        letter.style.opacity = "1";
+        letter.style.transform = "translateX(-50%) translateY(-50px)";
+        clickMe.style.opacity = "0";
+        clickMe.style.pointerEvents = "none"; // Disable Click Me when open
 
-    // Make the "No" button move when hovered or clicked
+        if (!heartsStarted) {
+            startFallingHearts();
+            heartsStarted = true;
+        }
+    }
+
+    function closeLetter() {
+        envelope.classList.remove("open");
+        letter.style.opacity = "0";
+        letter.style.transform = "translateX(-50%) translateY(50px)";
+        clickMe.style.opacity = "1";
+        clickMe.style.pointerEvents = "auto"; // Re-enable Click Me when closed
+    }
+
+    // Move "No" button when hovered or clicked
     noBtn.addEventListener("mouseover", moveNoButton);
     noBtn.addEventListener("click", moveNoButton);
 
     function moveNoButton() {
-        const x = Math.random() * (window.innerWidth - noBtn.clientWidth);
-        const y = Math.random() * (window.innerHeight - noBtn.clientHeight);
+        const x = Math.random() * (window.innerWidth - 100);
+        const y = Math.random() * (window.innerHeight - 50);
         noBtn.style.position = "absolute";
         noBtn.style.left = `${x}px`;
         noBtn.style.top = `${y}px`;
     }
 
-    // When "Yes" is clicked, show "Gotcha" message with animation
+    // When "Yes" is clicked, show "Gotcha" message
     yesBtn.addEventListener("click", function () {
-        gotchaContainer.style.display = "block";
+        gotchaContainer.style.display = "flex";
         setTimeout(() => {
             gotchaContainer.style.opacity = "1";
         }, 100);
 
-        // Hide "Gotcha" after 3 seconds and reset
+        // Hide "Gotcha" after 3 seconds
         setTimeout(() => {
             gotchaContainer.style.opacity = "0";
             setTimeout(() => {
@@ -58,4 +83,20 @@ document.addEventListener("DOMContentLoaded", function () {
             }, 500);
         }, 3000);
     });
+
+    // Falling Hearts Animation
+    function startFallingHearts() {
+        setInterval(() => {
+            const heart = document.createElement("div");
+            heart.classList.add("falling-heart");
+            heart.innerHTML = "❤️";
+            heart.style.left = Math.random() * window.innerWidth + "px";
+            heart.style.animationDuration = Math.random() * 3 + 2 + "s";
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 5000);
+        }, 500);
+    }
 });
