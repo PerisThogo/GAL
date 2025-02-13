@@ -1,22 +1,18 @@
-/* General Styling */
 body {
-    background: #d0f0c0;
+    background: #fce4ec;
     font-family: "Comic Sans MS", sans-serif;
-    color: #228b22;
+    color: #d81b60;
     text-align: center;
     padding: 20px;
     overflow: hidden;
 }
 
-h1 {
-    margin-top: 50px;
-}
-
+/* Envelope Styling */
 /* Envelope Container */
 .envelope {
     position: relative;
-    width: 240px;
-    height: 140px;
+    width: 200px;
+    height: 100px;
     background: #ffeb3b;
     margin: 50px auto;
     cursor: pointer;
@@ -29,12 +25,12 @@ h1 {
 /* Flap */
 .flap {
     position: absolute;
-    width: 240px;
-    height: 120px;
+    width: 200px;
+    height: 100px;
     background: #d4af37;
     top: 0;
     left: 0;
-    clip-path: polygon(0% 0%, 100% 0%, 50% 80%);
+    clip-path: polygon(0% 0%, 100% 0%, 50% 100%);
     transition: transform 0.5s ease-in-out;
     transform-origin: top center;
 }
@@ -43,8 +39,9 @@ h1 {
 .letter {
     width: 200px;
     height: 190px;
+    max-width: 200px;
     background: white;
-    position: absolute;
+    position: relative;
     bottom: 0;
     left: 50%;
     transform: translateX(-50%) translateY(50px);
@@ -53,95 +50,56 @@ h1 {
     opacity: 0;
     transition: transform 0.6s ease-in-out, opacity 0.6s ease-in-out;
     border-radius: 5px;
+    overflow: auto;
 }
 
-/* Click Me Button */
+
 .click-me {
-    position: absolute;
+    position: relative;
     bottom: -30px;
     left: 50%;
     transform: translateX(-50%);
-    background: white;
-    padding: 5px 10px;
+    background: #91db08; /* Yellow */
+    padding: 8px 15px;
     border-radius: 10px;
-    color: #228b22;
+    color: #2e7d32; /* Green */
     font-weight: bold;
     box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.2);
     animation: bounce 1.5s infinite ease-in-out;
-    transition: opacity 0.3s ease-in-out;
+    transition: opacity 0.3s ease-in-out, visibility 0.3s;
+    z-index: 9999; /* Ensure it's on top */
+    cursor: pointer;
+    pointer-events: auto; /* Allow clicks */
 }
 
-/* Hide Click Me when opened */
+/* Hide it when envelope is opened */
 .envelope.open .click-me {
     opacity: 0;
+    visibility: hidden;
 }
 
-/* Bouncing Effect */
+/* Show it when the envelope is closed */
+.envelope:not(.open) .click-me {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+/* Bouncing animation */
 @keyframes bounce {
-    0%, 100% {
-        transform: translateX(-50%) translateY(0);
-    }
-    50% {
-        transform: translateX(-50%) translateY(-5px);
-    }
-}
-
-
-  
-  /* Sunflower style */
-  .sunflower-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-5px); }
 }
 
 
 
-/* Duck style */
+
 .duck {
-    width: 90px; /* Set the size of the duck */
+    width: 150px; /* Adjust as needed */
+    height: auto;
 }
 
-/* Moving Duck */
-.duck-container {
-    text-align: center;
-    margin-top: 50px;
-}
 
-/* Question */
-.question {
-    font-size: 20px;
-    font-weight: bold;
-    margin-top: 15px;
-}
-
-/* Button Styles */
-.button-container {
-    margin-top: 10px;
-}
-
-button {
-    padding: 10px 15px;
-    font-size: 16px;
-    cursor: pointer;
-    border: none;
-    background: #ffeb3b;
-    color: #228b22;
-    font-weight: bold;
-    border-radius: 5px;
-    transition: transform 0.2s ease-in-out;
-}
-
-button:hover {
-    transform: scale(1.1);
-}
-
-/* No Button (Moves on Hover & Click) */
-#no-btn {
-    position: relative;
-}
-
-/* Gotcha Image */
 .gotcha-container {
     display: none;
     position: fixed;
@@ -154,69 +112,167 @@ button:hover {
     text-align: center;
     opacity: 0;
     animation: fadeIn 1s forwards;
+    width: auto;
+    max-width: 80%;
+    z-index: 9999;  /* Ensure it's on top */
 }
 
-/* Gotcha Text */
-.gotcha-text {
-    font-size: 20px;
+/* Ensure text and image stay together */
+.gotcha-container img {
+    display: block;
+    margin: 0 auto;
+    width: 80px; /* Adjust image size */
+}
+
+.gotcha-container p {
     color: white;
-    font-weight: bold;
+    font-size: 18px;
     margin-top: 10px;
 }
 
-/* Gotcha Animation */
-@keyframes fadeIn {
-    0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
-    100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+
+/* Responsive Adjustments */
+@media screen and (max-width: 600px) {
+    .gotcha {
+        width: 80px;
+    }
+    .duck {
+        width: 120px;
+    }
 }
 
-@keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-20px); }
+/* Question */
+.question {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 15px;
+}
+
+/* Buttons */
+.button-container {
+    margin-top: 10px;
+}
+
+button {
+    padding: 12px 20px;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+    border-radius: 8px;
+    transition: transform 0.2s ease-in-out;
+}
+
+/* Yes Button */
+#yes-btn {
+    background: #ff4081;
+    color: white;
+}
+
+#yes-btn:hover {
+    transform: scale(1.1);
+    background: #e91e63;
+}
+
+/* No Button */
+#no-btn {
+    position: relative;
+    background: #ff5722;
+    color: white;
+}
+
+#no-btn:hover {
+    transform: scale(1.1);
+    background: #f44336;
+}
+
+/* Gotcha Message */
+.gotcha-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 1s forwards;
 }
 
 .gotcha {
-    width: 150px;
+    width: 150px; /* Adjust size */
     height: auto;
-    animation: bounce 1s infinite;
+    max-width: 90%;
 }
 
-/* Animation for the sunflower */
+.gotcha-text {
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px; /* Space between image and text */
+}
+
+
+/* Falling Hearts */
+.falling-heart {
+    position: fixed;
+    top: 0;
+    font-size: 24px;
+    opacity: 0.8;
+    animation: fall linear infinite;
+    color: rgb(230, 255, 8);
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+.duck {
+    width: 120px; /* Adjust width as needed */
+    height: auto;
+    max-width: 100%;
+}
+
+
+/* Dancing Sunflower */
+.sunflower {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    width: 80px;
+    animation: dance 3s infinite ease-in-out;
+}
+
 @keyframes dance {
-    0% {
-        transform: rotate(0deg) translateX(0);
-    }
-    25% {
-        transform: rotate(10deg) translateX(10px);
-    }
-    50% {
-        transform: rotate(-10deg) translateX(-10px);
-    }
-    75% {
-        transform: rotate(5deg) translateX(5px);
-    }
-    100% {
-        transform: rotate(0deg) translateX(0);
-    }
+    0%, 100% { transform: rotate(0deg); }
+    25% { transform: rotate(10deg); }
+    50% { transform: rotate(-10deg); }
+    75% { transform: rotate(5deg); }
 }
 
-/* Show question after animation */
-.duck-container.show-question {
-    opacity: 1;
-    transition: opacity 2s ease-in-out;
-}
-
-/* Hide the question initially */
-.duck-container {
-    opacity: 0;
-}
-
-/* Keyframes to move the "No" button randomly */
-@keyframes moveNoButton {
-    0% {
-        transform: translateX(0) translateY(0);
+/* Responsive */
+@media screen and (max-width: 600px) {
+    h1 {
+        font-size: 18px;
     }
-    100% {
-        transform: translateX(100px) translateY(-50px);
+    .gotcha {
+        width: 80px;
+    }
+    button {
+        font-size: 16px;
+        padding: 10px;
     }
 }
